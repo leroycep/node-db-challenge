@@ -19,6 +19,26 @@ server.get("/api/projects", (req, res) => {
     });
 });
 
+server.post("/api/projects", validateProject, (req, res) => {
+  model
+    .addProject(req.body)
+    .then((project) => {
+      res.status(201).json(project);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to add project" });
+    });
+});
+
+function validateProject(req, res, next) {
+  if (req.body.name === undefined) {
+    res.status(400).json({ message: "project must have a name" });
+    return;
+  }
+  next();
+}
+
 server.listen(PORT, () =>
   console.log(` == server listening on port ${PORT} == `)
 );

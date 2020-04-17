@@ -84,8 +84,8 @@ Complete the following tasks:
   - [ ] for `projects` and `tasks` if no value is provided for the `completed`
         property, the API should provide a default value of `false`.
 - [ ] Build an API with endpoints for:
-  - [ ] adding resources.
-  - [ ] retrieving a list of resources.
+  - [x] adding resources.
+  - [x] retrieving a list of resources.
   - [ ] adding projects.
   - [ ] retrieving a list of projects.
   - [ ] adding tasks.
