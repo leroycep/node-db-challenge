@@ -72,11 +72,33 @@ server.post(
   }
 );
 
+server.post("/api/projects/:id/resources", validateProjectId, (req, res) => {
+  model
+    .addResourceToProject(req.project.id, req.body.resource_id)
+    .then((project_resources) => {
+      res.status(200).json(project_resources);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to add resource to project" });
+    });
+});
+
 server.get("/api/projects/:id", validateProjectId, (req, res) => {
   model
     .projectTasks(req.project.id)
     .then((tasks) => {
-      res.status(200).json({ ...req.project, tasks });
+      model
+        .projectResources(req.project.id)
+        .then((resources) => {
+          res.status(200).json({ ...req.project, tasks, resources });
+        })
+        .catch((err) => {
+          console.log(err);
+          res
+            .status(500)
+            .json({ message: "Failed to retrieve project's resources" });
+        });
     })
     .catch((err) => {
       console.log(err);
