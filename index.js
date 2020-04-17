@@ -55,12 +55,54 @@ server.post("/api/resources", hasNameField, (req, res) => {
     });
 });
 
+server.post(
+  "/api/projects/:id/tasks",
+  validateProjectId,
+  hasDescriptionField,
+  (req, res) => {
+    model
+      .addTask(req.project.id, req.body)
+      .then((task) => {
+        res.status(201).json(task);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ message: "Failed to add task" });
+      });
+  }
+);
+
 function hasNameField(req, res, next) {
   if (req.body.name === undefined) {
     res.status(400).json({ message: "must have a name" });
     return;
   }
   next();
+}
+
+function hasDescriptionField(req, res, next) {
+  if (req.body.description === undefined) {
+    res.status(400).json({ message: "must have a description" });
+    return;
+  }
+  next();
+}
+
+function validateProjectId(req, res, next) {
+  model
+    .projectById(req.params.id)
+    .then((project) => {
+      if (project) {
+        req.project = project;
+        next();
+      } else {
+        res.status(404).json({ message: "No project with the specified id" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to retrieve project" });
+    });
 }
 
 server.listen(PORT, () =>
