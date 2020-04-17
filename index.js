@@ -19,7 +19,7 @@ server.get("/api/projects", (req, res) => {
     });
 });
 
-server.post("/api/projects", validateProject, (req, res) => {
+server.post("/api/projects", hasNameField, (req, res) => {
   model
     .addProject(req.body)
     .then((project) => {
@@ -31,9 +31,33 @@ server.post("/api/projects", validateProject, (req, res) => {
     });
 });
 
-function validateProject(req, res, next) {
+server.get("/api/resources", (req, res) => {
+  model
+    .resources()
+    .then((resources) => {
+      res.status(200).json(resources);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to retrieve resources" });
+    });
+});
+
+server.post("/api/resources", hasNameField, (req, res) => {
+  model
+    .addResource(req.body)
+    .then((resource) => {
+      res.status(201).json(resource);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to add resource" });
+    });
+});
+
+function hasNameField(req, res, next) {
   if (req.body.name === undefined) {
-    res.status(400).json({ message: "project must have a name" });
+    res.status(400).json({ message: "must have a name" });
     return;
   }
   next();
