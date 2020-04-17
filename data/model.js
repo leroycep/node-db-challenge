@@ -4,11 +4,13 @@ module.exports = {
   projects,
   projectById,
   projectTasks,
+  projectTaskById,
   addProject,
   resources,
   addResource,
   addTask,
   contexts,
+  contextsByTaskId,
   addContext,
   addContextToTask,
 };
@@ -25,6 +27,13 @@ function projectTasks(id) {
   return db("tasks")
     .select("id", "description", "notes", "completed")
     .where({ project_id: id });
+}
+
+function projectTaskById(project_id, task_id) {
+  return db("tasks")
+    .select("id", "description", "notes", "completed")
+    .where({ id: task_id, project_id })
+    .first();
 }
 
 function addProject(project) {
@@ -59,6 +68,13 @@ function contexts() {
   return db("contexts").select();
 }
 
+function contextsByTaskId(task_id) {
+  return db("task_contexts")
+    .select("task_id", "context_id", "contexts.name as context_name")
+    .where({ task_id })
+    .join("contexts", { "contexts.id": "task_contexts.context_id" });
+}
+
 function addContext(context) {
   return db("contexts")
     .insert(context, "id")
@@ -70,10 +86,5 @@ function addContext(context) {
 function addContextToTask(task_id, context_id) {
   return db("task_contexts")
     .insert({ task_id, context_id }, "id")
-    .then((task_context_ids) =>
-      db("task_contexts")
-        .select("task_id", "context_id", "contexts.name as context_name")
-        .where({ task_id })
-        .join("contexts", { "contexts.id": context_id })
-    );
+    .then((task_context_ids) => contextByTaskId(task_id));
 }

@@ -84,6 +84,42 @@ server.get("/api/projects/:id", validateProjectId, (req, res) => {
     });
 });
 
+server.get(
+  "/api/projects/:id/tasks/:task_id",
+  validateProjectId,
+  (req, res) => {
+    model
+      .projectTaskById(req.project.id, req.params.task_id)
+      .then((task) => {
+        if (task) {
+          model
+            .contextsByTaskId(task.id)
+            .then((contexts) => res.status(200).json({ ...task, contexts }));
+        } else {
+          res
+            .status(404)
+            .json({ message: "No task with the specified for this project" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ message: "Failed to retrieve project's tasks" });
+      });
+  }
+);
+
+server.post("/api/tasks/:id/contexts", (req, res) => {
+  model
+    .addContextToTask(req.params.id, req.body.context_id)
+    .then((task_contexts) => {
+      res.status(200).json(task_contexts);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to add context" });
+    });
+});
+
 server.post("/api/contexts", hasNameField, (req, res) => {
   model
     .addContext(req.body)
