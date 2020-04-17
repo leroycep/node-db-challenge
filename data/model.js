@@ -3,6 +3,7 @@ const db = require("./db-config.js");
 module.exports = {
   projects,
   projectById,
+  projectTasks,
   addProject,
   resources,
   addResource,
@@ -15,6 +16,12 @@ function projects() {
 
 function projectById(id) {
   return db("projects").select().where({ id }).first();
+}
+
+function projectTasks(id) {
+  return db("tasks")
+    .select("id", "description", "notes", "completed")
+    .where({ project_id: id });
 }
 
 function addProject(project) {

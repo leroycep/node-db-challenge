@@ -66,30 +66,30 @@ initializing your project with a `package.json` and go from there.
 
 Complete the following tasks:
 
-- [ ] Design the data model and use _knex migrations_ to create the database and
+- [x] Design the data model and use _knex migrations_ to create the database and
       tables needed to satisfy the following business rules:
-  - [ ] a `project` can have multiple `tasks`.
-  - [ ] a `task` belongs to only one `project`.
-  - [ ] a `project` can use multiple `resources`. Example of `resources` are:
+  - [x] a `project` can have multiple `tasks`.
+  - [x] a `task` belongs to only one `project`.
+  - [x] a `project` can use multiple `resources`. Example of `resources` are:
         computer, conference room, microphone, delivery van.
-  - [ ] the same `resource` can be used in multiple `projects`.
-  - [ ] when adding `projects` the client must provide a name, the description
+  - [x] the same `resource` can be used in multiple `projects`.
+  - [x] when adding `projects` the client must provide a name, the description
         is optional.
-  - [ ] when adding `resources` the client must provide a name, the description
+  - [x] when adding `resources` the client must provide a name, the description
         is optional.
-  - [ ] when adding a `task` the client must provide a description, the notes
+  - [x] when adding a `task` the client must provide a description, the notes
         are optional.
-  - [ ] when adding a `task` the client must provide the `id` of an existing
+  - [x] when adding a `task` the client must provide the `id` of an existing
         project.
-  - [ ] for `projects` and `tasks` if no value is provided for the `completed`
+  - [x] for `projects` and `tasks` if no value is provided for the `completed`
         property, the API should provide a default value of `false`.
-- [ ] Build an API with endpoints for:
+- [x] Build an API with endpoints for:
   - [x] adding resources.
   - [x] retrieving a list of resources.
   - [x] adding projects.
   - [x] retrieving a list of projects.
-  - [ ] adding tasks.
-  - [ ] retrieving a list of tasks. **The list of tasks should include the
+  - [x] adding tasks.
+  - [x] retrieving a list of tasks. **The list of tasks should include the
         project name and project description**.
 
 ### Entities

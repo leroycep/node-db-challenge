@@ -72,6 +72,18 @@ server.post(
   }
 );
 
+server.get("/api/projects/:id", validateProjectId, (req, res) => {
+  model
+    .projectTasks(req.project.id)
+    .then((tasks) => {
+      res.status(200).json({ ...req.project, tasks });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to retrieve project's tasks" });
+    });
+});
+
 function hasNameField(req, res, next) {
   if (req.body.name === undefined) {
     res.status(400).json({ message: "must have a name" });
