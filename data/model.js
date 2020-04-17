@@ -8,6 +8,9 @@ module.exports = {
   resources,
   addResource,
   addTask,
+  contexts,
+  addContext,
+  addContextToTask,
 };
 
 function projects() {
@@ -49,5 +52,28 @@ function addTask(project_id, task) {
     .insert({ ...task, project_id }, "id")
     .then((task_ids) =>
       db("tasks").select().where({ id: task_ids[0] }).first()
+    );
+}
+
+function contexts() {
+  return db("contexts").select();
+}
+
+function addContext(context) {
+  return db("contexts")
+    .insert(context, "id")
+    .then((context_ids) =>
+      db("contexts").select().where({ id: context_ids[0] }).first()
+    );
+}
+
+function addContextToTask(task_id, context_id) {
+  return db("task_contexts")
+    .insert({ task_id, context_id }, "id")
+    .then((task_context_ids) =>
+      db("task_contexts")
+        .select("task_id", "context_id", "contexts.name as context_name")
+        .where({ task_id })
+        .join("contexts", { "contexts.id": context_id })
     );
 }

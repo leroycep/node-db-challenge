@@ -84,6 +84,30 @@ server.get("/api/projects/:id", validateProjectId, (req, res) => {
     });
 });
 
+server.post("/api/contexts", hasNameField, (req, res) => {
+  model
+    .addContext(req.body)
+    .then((context) => {
+      res.status(201).json(context);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to add context" });
+    });
+});
+
+server.get("/api/contexts", (req, res) => {
+  model
+    .contexts()
+    .then((contexts) => {
+      res.status(200).json(contexts);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Failed to retrieve contexts" });
+    });
+});
+
 function hasNameField(req, res, next) {
   if (req.body.name === undefined) {
     res.status(400).json({ message: "must have a name" });
