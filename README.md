@@ -49,15 +49,27 @@ following free-form questions. Edit this document to include your answers after
 each question. Make sure to leave a blank line above and below your answer so it
 is clear and easy to read by your project manager.
 
-- [ ] Explain the difference between `Relational Databases` and `SQL`.
+- [x] Explain the difference between `Relational Databases` and `SQL`.
 
-- [ ] Why do tables need a `primary key`?
+  - A relational database is the program that manages data
+  - `SQL` is a language that is often used to interface with relational database
 
-- [ ] What is the name given to a table column that references the primary key
+- [x] Why do tables need a `primary key`?
+
+  - Primary keys give the table a way to uniquely identify records. Having a
+    primary key means that other tables can reference that key to create
+    relations.
+
+- [x] What is the name given to a table column that references the primary key
       on another table.
 
-- [ ] What do we need in order to have a _many to many_ relationship between two
+  - A table column that references the primary key of another table is called a
+    `Foreign Key`.
+
+- [x] What do we need in order to have a _many to many_ relationship between two
       tables.
+  - We need a third table that references the other tables. It makes it possible
+    to reference keys in either table as many times as you want.
 
 ## Minimum Viable Product
 
